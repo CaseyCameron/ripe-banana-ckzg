@@ -3,25 +3,23 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
 
-  it('POSTS an actor', async () => {
+  it('POSTS an reviewer', async () => {
     const res = await request(app)
-      .post('/api/v1/actors')
+      .post('/api/v1/reviewers')
       .send({
-        name: 'Brad Pitt',
-        dob: new Date(1963, 12, 18),
-        pob: 'Shawnee, Oklahoma'
+        name: 'Roger Ebert',
+        company: 'Skiskel & Ebert'
       });
       
     expect(res.body).toEqual({
       id: 1,
-      name: 'Brad Pitt',
-      dob: new Date(1963, 12, 18).toISOString(),
-      pob: 'Shawnee, Oklahoma',
+      name: 'Roger Ebert',
+      company: 'Skiskel & Ebert',
       updatedAt: expect.any(String),
       createdAt: expect.any(String),
     });
