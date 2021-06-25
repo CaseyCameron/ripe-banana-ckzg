@@ -3,6 +3,7 @@ import db from '../lib/utils/db.js';
 // import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
+import Studio from '../lib/models/Studio.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -10,11 +11,17 @@ describe('demo routes', () => {
   });
 
   it('POSTS a film', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
     const res = await request(app)
       .post('/api/v1/films')
       .send({
         title: 'Fast & Furious',
-        StudioId: 1,
+        StudioId: studio.id,
         released: 2017,
       });
 
