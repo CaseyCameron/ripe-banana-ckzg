@@ -1,12 +1,12 @@
 
-import sequelize from '../lib/utils/db.js';
-import setup from '../data/setup.js';
+import db from '../lib/utils/db.js';
+// import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
-    return sequelize.sync({ force: true });
+    return db.sync({ force: true });
   });
 
   it('POSTS a studio', async () => {
