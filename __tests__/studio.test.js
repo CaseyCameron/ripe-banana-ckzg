@@ -68,7 +68,7 @@ describe('demo routes', () => {
       state: 'California',
       country: 'USA'
     });
-    
+
     await Film.create({
       title: 'Fast & Furious',
       StudioId: studio.id,
@@ -78,7 +78,9 @@ describe('demo routes', () => {
     const res = await request(app).get('/api/v1/studios/1');
     expect(res.body).toEqual({
       id: 1, name: 'MGM', city: 'Los Angeles', state: 'California', country: 'USA',
-      fwilms: [{ id: 1, title: 'Fast & Furious' }]
+      films: [{ id: 1, title: 'Fast & Furious' }],
+      updatedAt: studio.updatedAt.toISOString(),
+      createdAt: studio.createdAt.toISOString(),
     });
   });
 
