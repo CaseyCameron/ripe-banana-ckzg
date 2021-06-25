@@ -6,7 +6,7 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 
 describe('demo routes', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     return db.sync({ force: true });
   });
 
@@ -32,10 +32,7 @@ describe('demo routes', () => {
   });
 
   it('Get all studios', async () => {
-    const res = await request(app)
-      .get('/api/v1/studios');
-
-    const studios = await Studio.bulkCreate(
+    await Studio.bulkCreate(
       [{
         name: 'MGM',
         city: 'Los Angeles',
@@ -59,6 +56,10 @@ describe('demo routes', () => {
       ]
 
     );
-    expect(res.body).toEqual(studios);
+
+    const res = await request(app)
+      .get('/api/v1/studios');
+
+    expect(res.body).toEqual([{ id: 1, name: 'MGM' }, { id: 2, name: 'TNT' }, { id: 3, name: 'Disney' }]);
   });
 });
