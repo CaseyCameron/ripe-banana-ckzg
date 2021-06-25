@@ -4,7 +4,7 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -14,17 +14,23 @@ describe.skip('demo routes', () => {
       .post('/api/v1/films')
       .send({
         title: 'Fast & Furious',
-        studio: 'MGM',
+        studio: 1,
         released: 2017,
       });
 
     expect(res.body).toEqual({
       id: 1,
       title: 'Fast & Furious',
-      studio: 'MGM',
+      studio: 1,
       released: 2017,
       updatedAt: expect.any(String),
       createdAt: expect.any(String)
     });
   });
 });
+
+// {
+//   title: <title of film RS>,
+//   studio: <studio id RI>,
+//   released: <4-digit year RN>
+// }
