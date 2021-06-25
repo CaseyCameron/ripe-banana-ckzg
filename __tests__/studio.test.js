@@ -60,7 +60,7 @@ describe('demo routes', () => {
     expect(res.body).toEqual([{ id: 1, name: 'MGM' }, { id: 2, name: 'TNT' }, { id: 3, name: 'Disney' }]);
   });
 
-  it('GETs Studio by id with films by id & title', async () => {
+  it.skip('GETs Studio by id with films by id & title', async () => {
     //create a studio
     await Studio.create({
       name: 'MGM',
@@ -71,15 +71,15 @@ describe('demo routes', () => {
     //create a film
     await Film.create({
       title: 'Fast & Furious',
-      studio: 1,
+      StudioId: 1,
       released: 2017,
     });
 
     const res = await request(app).get('/api/v1/studios/1');
-    expect(res.body).toEqual([{
+    expect(res.body).toEqual({
       id: 1, name: 'MGM', city: 'Los Angeles', state: 'California', country: 'USA',
-      films: [{ id: 1, title: 'Fast & Furious' }]
-    }]);
+      Films: [{ id: 1, title: 'Fast & Furious' }]
+    });
   });
 
 });
