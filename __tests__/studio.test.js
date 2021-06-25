@@ -5,7 +5,7 @@ import request from 'supertest';
 import app from '../lib/app.js';
 
 describe('demo routes', () => {
-  beforeEach(() => {
+  beforeAll(() => {
     return db.sync({ force: true });
   });
 
