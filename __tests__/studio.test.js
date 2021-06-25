@@ -4,6 +4,7 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
+import Film from '../lib/models/Film.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -31,7 +32,7 @@ describe('demo routes', () => {
     });
   });
 
-  it('Get all studios', async () => {
+  it('GETS all studios', async () => {
     await Studio.bulkCreate(
       [{
         name: 'MGM',
@@ -39,22 +40,18 @@ describe('demo routes', () => {
         state: 'California',
         country: 'USA'
       },
-
       {
         name: 'TNT',
         city: 'Atlanta',
         state: 'Georgia',
         country: 'USA'
       },
-
       {
         name: 'Disney',
         city: 'Los Angeles',
         state: 'California',
         country: 'USA'
-      }
-      ]
-
+      }]
     );
 
     const res = await request(app)
@@ -62,4 +59,27 @@ describe('demo routes', () => {
 
     expect(res.body).toEqual([{ id: 1, name: 'MGM' }, { id: 2, name: 'TNT' }, { id: 3, name: 'Disney' }]);
   });
+
+  it('GETs Studio by id with films by id & title', async () => {
+    //create a studio
+    await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+    //create a film
+    await Film.create({
+      title: 'Fast & Furious',
+      studio: 1,
+      released: 2017,
+    });
+
+    const res = await request(app).get('/api/v1/studios/1');
+    expect(res.body).toEqual([{
+      id: 1, name: 'MGM', city: 'Los Angeles', state: 'California', country: 'USA',
+      films: [{ id: 1, title: 'Fast & Furious' }]
+    }]);
+  });
+
 });
