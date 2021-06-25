@@ -10,7 +10,7 @@ describe('demo routes', () => {
 
   it('POSTS an reviewer', async () => {
     const res = await request(app)
-      .post('/api/v1/reviewer')
+      .post('/api/v1/reviewers')
       .send({
         name: 'Roger Ebert',
         company: 'Skiskel & Ebert'
