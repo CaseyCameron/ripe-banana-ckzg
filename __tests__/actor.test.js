@@ -3,6 +3,8 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Actor from '../lib/models/Actor.js';
+import Studio from '../lib/models/Studio.js';
+import Film from '../lib/models/Film.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -29,13 +31,13 @@ describe('demo routes', () => {
   });
 
   it('GET all actors', async () => {
-    const actor1 = await Actor.create({
+    await Actor.create({
       name: 'Brad Pitt',
       dob: new Date(1963, 12, 18),
       pob: 'Shawnee, Oklahoma'
     });
 
-    const actor2 = await Actor.create({
+    await Actor.create({
       name: 'Angelina Jolie',
       dob: new Date(1975, 6, 4),
       pob: 'Los Angeles, California'
@@ -54,4 +56,54 @@ describe('demo routes', () => {
     }]);
     
   });
+  it('gets an actor by id', async () => {
+    const studio1 = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+
+    const film = await Film.create({
+      title: 'Fast & Furious',
+      StudioId: studio1.id,
+      released: 2017,
+    });
+
+
+    const actor = await Actor.create({
+      name: 'Brad Pitt',
+      dob: new Date(1963, 12, 18),
+      pob: 'Shawnee, Oklahoma'
+    });
+
+    const res = await request(app)
+      .get('/api/v1/actors/1');
+
+
+    expect(res.body).toEqual(
+      {
+        name: 'Brad Pitt',
+        dob: new Date(1963, 12, 18),
+        pob: 'Shawnee, Oklahoma',
+        Film: [
+          { 
+            id: 1,
+            title: 'Fast & Furious',
+            released: 2017
+          }
+        ]
+      }
+    );
+  });
 });
+// {
+//   name,
+//   dob,
+//   pob,
+//   films: [{
+//     id,
+//     title,
+//     released
+//   }]
+// }
