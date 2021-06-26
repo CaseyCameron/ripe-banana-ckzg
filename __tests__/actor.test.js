@@ -86,7 +86,7 @@ describe('demo routes', () => {
         name: 'Brad Pitt',
         dob: new Date(1963, 12, 18),
         pob: 'Shawnee, Oklahoma',
-        films: [
+        Film: [
           { 
             id: 1,
             title: 'Fast & Furious',
