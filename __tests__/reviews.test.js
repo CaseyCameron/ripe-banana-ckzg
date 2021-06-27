@@ -32,6 +32,7 @@ describe('demo routes', () => {
     
     const review = await Review.create({
       rating: 4,
+      FilmId: film.id,
       //reviewer: reviewer.name,
       review: 'Terminator is good!',
     });
@@ -43,7 +44,7 @@ describe('demo routes', () => {
 
     expect(res.body).toEqual([{
       id: 1, rating: 4, review: 'Terminator is good!',
-      film: [{ id: 1, title: 'Terminator' }]
+      Film: { id: 1, title: 'Terminator' }
     }]);
   });
 });
