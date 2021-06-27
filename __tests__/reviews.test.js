@@ -25,30 +25,25 @@ describe('demo routes', () => {
       released: 1993,
     });
 
-    const reviewer = await Reviewer.create({
-      name: 'Roger Ebert',
-      company: 'Siskel & Ebert'
-    });
+    // const reviewer = await Reviewer.create({
+    //   name: 'Roger Ebert',
+    //   company: 'Siskel & Ebert'
+    // });
     
     const review = await Review.create({
       rating: 4,
-      reviewer: reviewer.name,
+      //reviewer: reviewer.name,
       review: 'Terminator is good!',
     });
 
-    await review.addFilm(film);
+    // await review.addFilm(film);
     
     const res = await request(app)
       .get('/api/v1/reviews');
 
-    console.log('$$$$', res.body);
-
     expect(res.body).toEqual([{
       id: 1, rating: 4, review: 'Terminator is good!',
-      film: [{ id: 1, title: 'Terminator' }],
-      films: null,
-      updatedAt: studio.updatedAt.toISOString(),
-      createdAt: studio.createdAt.toISOString()
+      film: [{ id: 1, title: 'Terminator' }]
     }]);
   });
 });
