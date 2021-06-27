@@ -93,7 +93,7 @@ describe('demo routes', () => {
       .get('/api/v1/reviews');
 
     expect(res.body).toEqual([{
-      id: 1, rating: 1, review: 'Terminator sucks!',
+      id: 2, rating: 5, review: 'Terminator is great!!!!!!',
       Film: { id: 1, title: 'Terminator' }
     }]);
   });
