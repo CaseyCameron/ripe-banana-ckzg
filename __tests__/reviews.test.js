@@ -95,6 +95,9 @@ describe('demo routes', () => {
     expect(res.body).toEqual([{
       id: 2, rating: 5, review: 'Terminator is great!!!!!!',
       Film: { id: 1, title: 'Terminator' }
+    }, {
+      id: 1, rating: 1, review: 'Terminator sucks!',
+      Film: { id: 1, title: 'Terminator' }
     }]);
   });
 });
