@@ -34,7 +34,7 @@ describe('demo routes', () => {
         review: 'It was ok for the time period, but I like Arnold',
         FilmId: film.id
       });
-
+    
     expect(res.body).toEqual({
       id: 1,
       rating: 3,
@@ -42,6 +42,7 @@ describe('demo routes', () => {
       FilmId: film.id
     });
   });
+  
   it('GET all reviews', async() => {
     const studio = await Studio.create({
       name: 'MGM',
