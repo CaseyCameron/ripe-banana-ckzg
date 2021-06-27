@@ -5,12 +5,43 @@ import Film from '../lib/models/Film.js';
 import Review from '../lib/models/Review.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import Studio from '../lib/models/Studio.js';
+import reviews from '../lib/controllers/reviews.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
 
+  
+  it('POST a review', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+
+    const film = await Film.create({
+      title: 'Terminator',
+      StudioId: studio.id,
+      released: 1993,
+    });
+
+    const res = await request(app)
+      .post('/api/v1/reviews')
+      .send({
+        rating: 3,
+        review: 'It was ok for the time period, but I like Arnold',
+        FilmId: film.id
+      });
+
+    expect(res.body).toEqual({
+      id: 1,
+      rating: 3,
+      review: 'It was ok for the time period, but I like Arnold',
+      FilmId: film.id
+    });
+  });
   it('GET all reviews', async() => {
     const studio = await Studio.create({
       name: 'MGM',
