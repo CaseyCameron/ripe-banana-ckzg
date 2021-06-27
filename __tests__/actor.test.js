@@ -5,6 +5,7 @@ import app from '../lib/app.js';
 import Actor from '../lib/models/Actor.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
+import '../lib/models';
 
 describe('demo routes', () => {
   beforeEach(() => {
@@ -63,12 +64,23 @@ describe('demo routes', () => {
       state: 'California',
       country: 'USA'
     });
+    // const studio2 = await Studio.create({
+    //   name: 'Disney',
+    //   city: 'Los Angeles',
+    //   state: 'California',
+    //   country: 'USA'
+    // });
 
     const film = await Film.create({
       title: 'Fast & Furious',
       StudioId: studio1.id,
       released: 2017,
     });
+    // const film2 = await Film.create({
+    //   title: 'Slow & Furious',
+    //   StudioId: studio2.id,
+    //   released: 2017,
+    // });
 
 
     const actor = await Actor.create({
@@ -76,17 +88,21 @@ describe('demo routes', () => {
       dob: new Date(1963, 12, 18),
       pob: 'Shawnee, Oklahoma'
     });
-
+    
+    //magic method... exist on models that have associations, basically adding a film tied to this actor in the junction table
+    await actor.addFilm(film);
+   
     const res = await request(app)
       .get('/api/v1/actors/1');
 
 
+    
     expect(res.body).toEqual(
       {
         name: 'Brad Pitt',
-        dob: new Date(1963, 12, 18),
+        dob: new Date(1963, 12, 18).toISOString(),
         pob: 'Shawnee, Oklahoma',
-        Film: [
+        Films: [
           { 
             id: 1,
             title: 'Fast & Furious',
