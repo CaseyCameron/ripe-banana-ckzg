@@ -26,11 +26,16 @@ describe('demo routes', () => {
       StudioId: studio.id,
       released: 1993,
     });
+    const reviewer = await Reviewer.create({
+      name: 'Kara Pedersen',
+      company: 'Pedersens reviews',
 
+    });
     const res = await request(app)
       .post('/api/v1/reviews')
       .send({
         rating: 3,
+        ReviewerId: reviewer.id,
         review: 'It was ok for the time period, but I like Arnold',
         FilmId: film.id
       });
@@ -38,6 +43,7 @@ describe('demo routes', () => {
     expect(res.body).toEqual({
       id: 1,
       rating: 3,
+      ReviewerId: reviewer.id,
       review: 'It was ok for the time period, but I like Arnold',
       FilmId: film.id
     });
