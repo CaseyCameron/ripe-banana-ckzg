@@ -85,9 +85,9 @@ describe('demo routes', () => {
 
     expect(res.body).toEqual({
       id: 1, name: 'Kara Pedersen', company: 'Pedersens reviews',
-      reviews: [{
+      Reviews: [{
         id: 1, rating: 1, review: review.review,
-        film: { id: film.id, title: film.title }
+        Film: { id: film.id, title: film.title }
       }]
     });   
   });
