@@ -39,7 +39,7 @@ describe('demo routes', () => {
       createdAt: expect.any(String)
     });
   });
-  it('GETS a film by id', async () => {
+  it.only('GETS a film by id', async () => {
     const studio = await Studio.create({
       name: 'MGM',
       city: 'Los Angeles',
@@ -70,6 +70,7 @@ describe('demo routes', () => {
       ReviewerId: reviewer.id,
       review: 'Terminator sucks!',
     });
+    await actor.addFilm(film);
 
     const res = await request(app)
       .get(`/api/v1/films/${film.id}`);
@@ -77,14 +78,14 @@ describe('demo routes', () => {
    
     expect(res.body).toEqual({
       title: film.title,
-      released: film.released,
-      studio: { id: studio.id, name: studio.name },
-      cast: [{ id: actor.id, name: actor.name }],
-      reviews: [{
+      released: 1993,
+      Studio: { id: studio.id, name: studio.name },
+      Actors: [{ id: actor.id, name: actor.name }],
+      Reviews: [{
         id: review.id,
         rating: review.rating,
         review: review.review,
-        reviewer: { id: reviewer.id, name: reviewer.name }
+        Reviewer: { id: reviewer.id, name: reviewer.name }
       }]
     });
   });

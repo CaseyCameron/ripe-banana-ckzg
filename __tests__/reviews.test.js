@@ -7,7 +7,7 @@ import Reviewer from '../lib/models/Reviewer.js';
 import Studio from '../lib/models/Studio.js';
 import reviews from '../lib/controllers/reviews.js';
 
-describe('demo routes', () => {
+describe.skip('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });

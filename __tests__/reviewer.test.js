@@ -7,7 +7,7 @@ import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 import Review from '../lib/models/Review.js';
 
-describe('demo routes', () => {
+describe.skip('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
