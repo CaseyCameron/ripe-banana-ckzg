@@ -6,8 +6,10 @@ import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 import Actor from '../lib/models/Actor.js';
+import Review from '../lib/models/Review.js';
+import Reviewer from '../lib/models/Reviewer.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -37,7 +39,55 @@ describe.skip('demo routes', () => {
       createdAt: expect.any(String)
     });
   });
+  it('GETS a film by id', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
 
+    const film = await Film.create({
+      title: 'Terminator',
+      StudioId: studio.id,
+      released: 1993,
+    });
+
+    const actor = await Actor.create({
+      name: 'Arnold',
+      dob: new Date(1957, 12, 18),
+      pob: 'Vienna, Austria'
+    });
+
+    const reviewer = await Reviewer.create({
+      name: 'Roger Ebert',
+      company: 'Siskel & Ebert'
+    });
+
+    const review = await Review.create({
+      rating: 1,
+      FilmId: film.id,
+      ReviewerId: reviewer.id,
+      review: 'Terminator sucks!',
+    });
+
+    const res = await request(app)
+      .get(`/api/v1/films/${film.id}`);
+        
+   
+    expect(res.body).toEqual({
+      title: film.title,
+      released: film.released,
+      studio: { id: studio.id, name: studio.name },
+      cast: [{ id: actor.id, name: actor.name }],
+      reviews: [{
+        id: review.id,
+        rating: review.rating,
+        review: review.review,
+        reviewer: { id: reviewer.id, name: reviewer.name }
+      }]
+    });
+  });
   it('GETs all films with studio, studio id & studio name', async () => {
     const studio1 = await Studio.create({
       name: 'MGM',
