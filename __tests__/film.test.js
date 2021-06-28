@@ -39,7 +39,7 @@ describe('demo routes', () => {
       createdAt: expect.any(String)
     });
   });
-  it.only('GETS a film by id', async () => {
+  it('GETS a film by id', async () => {
     const studio = await Studio.create({
       name: 'MGM',
       city: 'Los Angeles',
