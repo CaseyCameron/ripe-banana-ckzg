@@ -3,8 +3,11 @@ import db from '../lib/utils/db.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Reviewer from '../lib/models/Reviewer.js';
+import Studio from '../lib/models/Studio.js';
+import Film from '../lib/models/Film.js';
+import Review from '../lib/models/Review.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -50,6 +53,43 @@ describe.skip('demo routes', () => {
       name: 'Gene Siskel',
       company: 'Siskel & Ebert'
     }]);
-
   });
+
+  it('GETS a reviewer by id', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+
+    const film = await Film.create({
+      title: 'Terminator',
+      StudioId: studio.id,
+      released: 1993,
+    });
+
+    const reviewer = await Reviewer.create({
+      name: 'Kara Pedersen',
+      company: 'Pedersens reviews',
+    });
+    
+    const review = await Review.create({
+      rating: 1,
+      FilmId: film.id,
+      ReviewerId: reviewer.id,
+      review: 'Terminator sucks!',
+    });
+
+    const res = await request(app).get(`/api/v1/reviewers/${reviewer.id}`);
+
+    expect(res.body).toEqual({
+      id: 1, name: 'Kara Pedersen', company: 'Pedersens reviews',
+      reviews: [{
+        id: 1, rating: 1, review: review.review,
+        film: { id: film.id, title: film.title }
+      }]
+    });   
+  });
+
 });
