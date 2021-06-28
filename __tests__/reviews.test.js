@@ -26,11 +26,13 @@ describe('demo routes', () => {
       StudioId: studio.id,
       released: 1993,
     });
+
     const reviewer = await Reviewer.create({
       name: 'Kara Pedersen',
       company: 'Pedersens reviews',
 
     });
+
     const res = await request(app)
       .post('/api/v1/reviews')
       .send({
@@ -80,6 +82,7 @@ describe('demo routes', () => {
       ReviewerId: reviewer1.id,
       review: 'Terminator sucks!',
     });
+    
     const review2 = await Review.create({
       rating: 5,
       FilmId: film.id,
