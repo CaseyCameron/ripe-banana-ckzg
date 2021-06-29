@@ -98,11 +98,15 @@ describe('demo routes', () => {
       company: 'Zachy Reviewers'
     });
     reviewer.name = 'Casey Gabriel';
-    const res = await request(app).put(`/api/v1/reviewers/${reviewer.id}`);
+    const res = await request(app).put(`/api/v1/reviewers/${reviewer.id}`).send({
+      name: 'Casey Gabriel',
+    });
     expect(res.body).toEqual({
       id: 1,
       name: 'Casey Gabriel',
-      company: 'Zachy Reviewers'
+      company: 'Zachy Reviewers',
+      createdAt: expect.any(String),
+      updatedAt: expect.any(String)
     });
 
   });
