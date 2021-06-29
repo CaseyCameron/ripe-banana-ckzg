@@ -1,6 +1,5 @@
 
 import db from '../lib/utils/db.js';
-// import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
@@ -51,8 +50,7 @@ describe('demo routes', () => {
         city: 'Los Angeles',
         state: 'California',
         country: 'USA'
-      }]
-    );
+      }]);
 
     const res = await request(app)
       .get('/api/v1/studios');
@@ -79,8 +77,6 @@ describe('demo routes', () => {
     expect(res.body).toEqual({
       id: 1, name: 'MGM', city: 'Los Angeles', state: 'California', country: 'USA',
       films: [{ id: 1, title: 'Fast & Furious' }],
-      updatedAt: studio.updatedAt.toISOString(),
-      createdAt: studio.createdAt.toISOString(),
     });
   });
 
@@ -93,8 +89,5 @@ describe('demo routes', () => {
     });
     const res = await request(app).delete('/api/v1/studios/1');
     expect(res.body).toEqual({ delete: 'complete' });
-
   });
-
-
 });

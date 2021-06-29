@@ -1,6 +1,5 @@
 
 import db from '../lib/utils/db.js';
-// import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Studio from '../lib/models/Studio.js';
@@ -21,6 +20,7 @@ describe('demo routes', () => {
       state: 'California',
       country: 'USA'
     });
+
     const res = await request(app)
       .post('/api/v1/films')
       .send({
@@ -39,6 +39,7 @@ describe('demo routes', () => {
       createdAt: expect.any(String)
     });
   });
+
   it('GETS a film by id', async () => {
     const studio = await Studio.create({
       name: 'MGM',
@@ -70,11 +71,11 @@ describe('demo routes', () => {
       ReviewerId: reviewer.id,
       review: 'Terminator sucks!',
     });
+    
     await actor.addFilm(film);
 
     const res = await request(app)
       .get(`/api/v1/films/${film.id}`);
-
 
     expect(res.body).toEqual({
       title: film.title,
@@ -89,6 +90,7 @@ describe('demo routes', () => {
       }]
     });
   });
+
   it('GETs all films with studio, studio id & studio name', async () => {
     const studio1 = await Studio.create({
       name: 'MGM',
@@ -110,7 +112,7 @@ describe('demo routes', () => {
       released: 2017,
     });
 
-    const film = await Film.create({
+    await Film.create({
       title: 'Slow & Furious',
       StudioId: studio2.id,
       released: 2017,
@@ -124,20 +126,16 @@ describe('demo routes', () => {
         released: 2017,
         Studio: { id: studio1.id, name: studio1.name },
         StudioId: 1,
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
       },
       {
         id: 2, title: 'Slow & Furious',
         released: 2017,
         Studio: { id: studio2.id, name: studio2.name },
         StudioId: 2,
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
-      }
-    ],
+      }],
     );
   });
+
   it('deletes a film', async () => {
     const studio = await Studio.create({
       name: 'MGM',
@@ -145,11 +143,13 @@ describe('demo routes', () => {
       state: 'California',
       country: 'USA'
     });
+    
     await Film.create({
       title: 'The Notebook',
       StudioId: studio.id,
       released: 2007
     });
+
     const res = await request(app).delete('/api/v1/films/1');
     expect(res.body).toEqual({ delete: 'complete' });
   });

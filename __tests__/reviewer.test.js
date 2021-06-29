@@ -1,5 +1,4 @@
 import db from '../lib/utils/db.js';
-// import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Reviewer from '../lib/models/Reviewer.js';
@@ -97,10 +96,12 @@ describe('demo routes', () => {
       name: 'Zach Gaines',
       company: 'Zachy Reviewers'
     });
+
     reviewer.name = 'Casey Gabriel';
     const res = await request(app).put(`/api/v1/reviewers/${reviewer.id}`).send({
       name: 'Casey Gabriel',
     });
+
     expect(res.body).toEqual({
       id: 1,
       name: 'Casey Gabriel',
@@ -109,6 +110,7 @@ describe('demo routes', () => {
       updatedAt: expect.any(String)
     });
   });
+
   it('does not delete a reviewer if they have reviews attached', async () => {
     const studio = await Studio.create({
       name: 'MGM',
@@ -128,7 +130,7 @@ describe('demo routes', () => {
       company: 'Pedersens reviews',
     });
 
-    const review = await Review.create({
+    await Review.create({
       rating: 1,
       FilmId: film.id,
       ReviewerId: reviewer.id,
@@ -142,15 +144,13 @@ describe('demo routes', () => {
     expect(res.body).toEqual({
       error: 'Cannot delete'
     });
-
   });
-  it('deletes a reviewer that has no reviews', async () => {
 
-    const reviewer = await Reviewer.create({
+  it('deletes a reviewer that has no reviews', async () => {
+    await Reviewer.create({
       name: 'Kara Pedersen',
       company: 'Pedersens reviews',
     });
-
 
     const res = await request(app)
       .delete('/api/v1/reviewers/1');
@@ -158,11 +158,5 @@ describe('demo routes', () => {
     expect(res.body).toEqual({
       delete: 'complete'
     });
-
   });
-
-  
-
-
-
 });
