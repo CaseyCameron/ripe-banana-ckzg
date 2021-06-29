@@ -1,4 +1,4 @@
-import pool from './lib/utils/pool.js';
-import setup from './data/setup.js';
+import db from './lib/utils/db.js';
+// import setup from './data/setup.js';
 
-setup(pool);
+db.sync();
