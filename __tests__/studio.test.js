@@ -84,4 +84,17 @@ describe('demo routes', () => {
     });
   });
 
+  it('DELETES a studio', async() => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+    const res = await request(app).delete('/api/v1/studios/1');
+    expect(res.body).toEqual(studio.toJSON());
+    
+  });
+
+
 });
