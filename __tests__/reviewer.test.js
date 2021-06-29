@@ -19,7 +19,7 @@ describe('demo routes', () => {
         name: 'Roger Ebert',
         company: 'Siskel & Ebert'
       });
-      
+
     expect(res.body).toEqual({
       id: 1,
       name: 'Roger Ebert',
@@ -29,7 +29,7 @@ describe('demo routes', () => {
     });
   });
 
-  it('GET all reviewers', async() => {
+  it('GET all reviewers', async () => {
     await Reviewer.create({
       name: 'Roger Ebert',
       company: 'Siskel & Ebert'
@@ -39,7 +39,7 @@ describe('demo routes', () => {
       name: 'Gene Siskel',
       company: 'Siskel & Ebert'
     });
-        
+
     const res = await request(app)
       .get('/api/v1/reviewers');
 
@@ -73,7 +73,7 @@ describe('demo routes', () => {
       name: 'Kara Pedersen',
       company: 'Pedersens reviews',
     });
-    
+
     const review = await Review.create({
       rating: 1,
       FilmId: film.id,
@@ -89,7 +89,22 @@ describe('demo routes', () => {
         id: 1, rating: 1, review: review.review,
         Film: { id: film.id, title: film.title }
       }]
-    });   
+    });
+  });
+
+  it('updates a reviewer via PUT', async () => {
+    const reviewer = await Reviewer.create({
+      name: 'Zach Gaines',
+      company: 'Zachy Reviewers'
+    });
+    reviewer.name = 'Casey Gabriel';
+    const res = await request(app).put(`/api/v1/reviewers/${reviewer.id}`);
+    expect(res.body).toEqual({
+      id: 1,
+      name: 'Casey Gabriel',
+      company: 'Zachy Reviewers'
+    });
+
   });
 
 });
