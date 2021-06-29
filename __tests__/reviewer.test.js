@@ -144,7 +144,22 @@ describe('demo routes', () => {
     });
 
   });
-  
+  it('deletes a reviewer that has no reviews', async () => {
+
+    const reviewer = await Reviewer.create({
+      name: 'Kara Pedersen',
+      company: 'Pedersens reviews',
+    });
+
+
+    const res = await request(app)
+      .delete('/api/v1/reviewers/1');
+
+    expect(res.body).toEqual({
+      delete: 'complete'
+    });
+
+  });
 
   
 
