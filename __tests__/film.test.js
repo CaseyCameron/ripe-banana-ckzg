@@ -9,7 +9,7 @@ import Actor from '../lib/models/Actor.js';
 import Review from '../lib/models/Review.js';
 import Reviewer from '../lib/models/Reviewer.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -137,6 +137,21 @@ describe.skip('demo routes', () => {
       }
     ],
     );
+  });
+  it('deletes a film', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+    await Film.create({
+      title: 'The Notebook',
+      StudioId: studio.id,
+      released: 2007
+    });
+    const res = await request(app).delete('/api/v1/films/1');
+    expect(res.body).toEqual({ delete: 'complete' });
   });
 });
 

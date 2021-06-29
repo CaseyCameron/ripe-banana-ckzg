@@ -7,7 +7,7 @@ import Studio from '../lib/models/Studio.js';
 import Film from '../lib/models/Film.js';
 import '../lib/models';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -113,14 +113,16 @@ describe.skip('demo routes', () => {
       }
     );
   });
+
+  it('delete an actor', async () => {
+    await Actor.create({
+      name: 'Megan Fox',
+      dob: new Date(1986, 5, 16).toISOString(),
+      pob: 'West-Hills, California',
+    });
+    const res = await request(app).delete('/api/v1/actors/1');
+    expect(res.body).toEqual({
+      delete: 'complete'
+    });
+  });
 });
-// {
-//   name,
-//   dob,
-//   pob,
-//   films: [{
-//     id,
-//     title,
-//     released
-//   }]
-// }

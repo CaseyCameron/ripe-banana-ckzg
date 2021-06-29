@@ -7,7 +7,7 @@ import Reviewer from '../lib/models/Reviewer.js';
 import Studio from '../lib/models/Studio.js';
 import reviews from '../lib/controllers/reviews.js';
 
-describe.skip('demo routes', () => {
+describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
@@ -102,5 +102,37 @@ describe.skip('demo routes', () => {
       id: 1, rating: 1, review: 'Terminator sucks!',
       Film: { id: 1, title: 'Terminator' }
     }]);
+  });
+
+  it('deletes a review', async () => {
+    const studio = await Studio.create({
+      name: 'MGM',
+      city: 'Los Angeles',
+      state: 'California',
+      country: 'USA'
+    });
+
+    const film = await Film.create({
+      title: 'Terminator',
+      StudioId: studio.id,
+      released: 1993,
+    });
+
+    const reviewer = await Reviewer.create({
+      name: 'Roger Ebert',
+      company: 'Siskel & Ebert'
+    });
+
+    await Review.create({
+      rating: 5,
+      FilmId: film.id,
+      ReviewerId: reviewer.id,
+      review: 'Terminator is the bomb!'
+    });
+    const res = await request(app)
+      .delete('/api/v1/reviews/1');
+    expect(res.body).toEqual({
+      delete: 'complete'
+    });
   });
 });
