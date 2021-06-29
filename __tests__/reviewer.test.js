@@ -109,7 +109,7 @@ describe('demo routes', () => {
       updatedAt: expect.any(String)
     });
   });
-  it('deletes a reviewer (only if no reviews tied to reviewer)', async () => {
+  it('does not delete a reviewer if they have reviews attached', async () => {
     const studio = await Studio.create({
       name: 'MGM',
       city: 'Los Angeles',
