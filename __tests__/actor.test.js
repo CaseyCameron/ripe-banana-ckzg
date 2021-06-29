@@ -1,5 +1,4 @@
 import db from '../lib/utils/db.js';
-// import setup from '../data/setup.js';
 import request from 'supertest';
 import app from '../lib/app.js';
 import Actor from '../lib/models/Actor.js';
@@ -65,24 +64,12 @@ describe('demo routes', () => {
       state: 'California',
       country: 'USA'
     });
-    // const studio2 = await Studio.create({
-    //   name: 'Disney',
-    //   city: 'Los Angeles',
-    //   state: 'California',
-    //   country: 'USA'
-    // });
 
     const film = await Film.create({
       title: 'Fast & Furious',
       StudioId: studio1.id,
       released: 2017,
     });
-    // const film2 = await Film.create({
-    //   title: 'Slow & Furious',
-    //   StudioId: studio2.id,
-    //   released: 2017,
-    // });
-
 
     const actor = await Actor.create({
       name: 'Brad Pitt',
@@ -96,8 +83,6 @@ describe('demo routes', () => {
     const res = await request(app)
       .get('/api/v1/actors/1');
 
-
-
     expect(res.body).toEqual(
       {
         name: 'Brad Pitt',
@@ -108,10 +93,8 @@ describe('demo routes', () => {
             id: 1,
             title: 'Fast & Furious',
             released: 2017
-          }
-        ]
-      }
-    );
+          }]
+      });
   });
 
   it('delete an actor', async () => {
@@ -120,6 +103,7 @@ describe('demo routes', () => {
       dob: new Date(1986, 5, 16).toISOString(),
       pob: 'West-Hills, California',
     });
+
     const res = await request(app).delete('/api/v1/actors/1');
     expect(res.body).toEqual({
       delete: 'complete'

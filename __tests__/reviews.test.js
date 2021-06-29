@@ -5,13 +5,11 @@ import Film from '../lib/models/Film.js';
 import Review from '../lib/models/Review.js';
 import Reviewer from '../lib/models/Reviewer.js';
 import Studio from '../lib/models/Studio.js';
-import reviews from '../lib/controllers/reviews.js';
 
 describe('demo routes', () => {
   beforeEach(() => {
     return db.sync({ force: true });
   });
-
 
   it('POST a review', async () => {
     const studio = await Studio.create({
@@ -30,7 +28,6 @@ describe('demo routes', () => {
     const reviewer = await Reviewer.create({
       name: 'Kara Pedersen',
       company: 'Pedersens reviews',
-
     });
 
     const res = await request(app)
@@ -70,27 +67,24 @@ describe('demo routes', () => {
       company: 'Siskel & Ebert'
     });
 
-
     const reviewer2 = await Reviewer.create({
       name: 'Casey',
       company: 'Casey reviews'
     });
 
-    const review = await Review.create({
+    await Review.create({
       rating: 1,
       FilmId: film.id,
       ReviewerId: reviewer1.id,
       review: 'Terminator sucks!',
     });
 
-    const review2 = await Review.create({
+    await Review.create({
       rating: 5,
       FilmId: film.id,
       ReviewerId: reviewer2.id,
       review: 'Terminator is great!!!!!!',
     });
-
-    // await review.addFilm(film);
 
     const res = await request(app)
       .get('/api/v1/reviews');
@@ -129,8 +123,7 @@ describe('demo routes', () => {
       ReviewerId: reviewer.id,
       review: 'Terminator is the bomb!'
     });
-    const res = await request(app)
-      .delete('/api/v1/reviews/1');
+    const res = await request(app).delete('/api/v1/reviews/1');
     expect(res.body).toEqual({
       delete: 'complete'
     });
